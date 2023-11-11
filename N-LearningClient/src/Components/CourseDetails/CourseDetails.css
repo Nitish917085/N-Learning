@@ -5,6 +5,11 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.courseView {
+    height: calc(100vh - 50px);
+    overflow: auto;
+}
+
 h1 {
     font-size: 2em;
     color: #333;
@@ -29,22 +34,24 @@ button {
     margin-top: 20px;
 }
 
-.enrollStatus{
+.enrollStatus {
     width: 100%;
     display: flex;
     justify-content: flex-end;
 
-    &>div{
-            background-color: #0056b3;
-            padding: 10px;
-            color: white;
-            border-radius: 5px;
-            &:hover{
-                cursor: pointer;
-                background-color: #007BFF;
-            }            
+    &>div {
+        background-color: #0056b3;
+        padding: 10px;
+        color: white;
+        border-radius: 5px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: #007BFF;
+        }
     }
 }
+
 button:hover {
     background-color: #0056b3;
 }
@@ -53,7 +60,8 @@ button:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    &:hover{
+
+    &:hover {
         cursor: pointer;
     }
 }

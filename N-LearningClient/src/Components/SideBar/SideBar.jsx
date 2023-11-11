@@ -10,7 +10,7 @@ const SideBar = () => {
     navigate('/home')
   }
   const hadleDashobardPageButton=()=>{
-    // navigate('/dashboard')
+    navigate('/dashboard')
   }
 
 

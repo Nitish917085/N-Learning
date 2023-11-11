@@ -5,7 +5,7 @@ const express = require("express");
 const routes =  require("./routes")
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const { gameControllers } = require("./routes/gameControllers");
+const { socketControllers } = require("./routes/socketControllers");
 const Course = require("./model/Course");
 const { courseData } = require("./data");
 
@@ -34,7 +34,7 @@ const io = new Server(httpServer,{
 mongooseConnect()
 
 io.on("connection", (socket) => {
-  gameControllers(socket,io)
+  socketControllers(socket,io)
 });
 
 

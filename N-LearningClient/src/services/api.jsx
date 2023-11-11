@@ -28,8 +28,6 @@ const getCourseDetailsApi = async (details)=>{
 
 const enrollCourseApi = async (details)=>{
     const cookie =Cookies.get("userToken")
-
-    console.log("appp",details)
     const response = await axios.post(`${baseUrl}/enrollCourse`,{...details,cookie})
 
     if(response.status == 200 )
@@ -39,4 +37,15 @@ const enrollCourseApi = async (details)=>{
 }
 
 
-export {baseUrl,getAllCourseApi,getCourseDetailsApi, enrollCourseApi }
+const enrolledCoursesApi = async (details)=>{
+    const cookie =Cookies.get("userToken")
+    const response = await axios.post(`${baseUrl}/enrolledCourses`,{userName:details,cookie})
+
+    if(response.status == 200 )
+        return response.data
+    else if(response.status== 201)
+         alert(response.data.error)
+}
+
+
+export {baseUrl,getAllCourseApi,getCourseDetailsApi,enrolledCoursesApi, enrollCourseApi }

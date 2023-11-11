@@ -25,7 +25,7 @@ const CourseDetailsPage = () => {
   return (
     <>
       <div className="homePage">
-        <div className="">
+        <div className="sidebar">
           <SideBar />
         </div>
         <CourseDetails />

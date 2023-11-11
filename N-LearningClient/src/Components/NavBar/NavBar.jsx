@@ -33,7 +33,7 @@ const NavBar = () => {
             }
 
             <div className='appName'>
-                Twits
+                N-Learning
             </div>
             <div className='userName'>
                 <div>

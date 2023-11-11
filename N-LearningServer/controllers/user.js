@@ -40,9 +40,8 @@ const userLogin = async (req, res) => {
 
 
 const courseList = async (req, res) => {
-    console.log("getList")
     try {
-        const courses = await Course.find({})
+        const courses = await Course.find({}).select('name instructor duration')
 
         return res.status(200).json(courses)
 
@@ -60,24 +59,59 @@ const courseDetails = async (req, res) => {
         return res.status(500).json({ error: err.message });
     }
 }
+
+
+const enrolledCourses = async (req, res) => {
+    try {
+        const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
+               
+        return res.status(200).json(courseDetails)
+
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+
+const markCompleted = async (req, res) => {
+    try {
+        const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
+               
+        return res.status(200).json(courseDetails)
+
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+
+const likeCourse = async (req, res) => {
+    try {
+        const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
+               
+        return res.status(200).json(courseDetails)
+
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+}
+
+
 const enrollStudent = async (req, res) => {
 
-    console.log(req.body)
     try {
-
         const existingCourse = await User.findOne({
             userName: req.body.userName,
-            courses: req.body.courseId,
+            'courses.courseId': req.body.courseId,
         });
 
         if (existingCourse) {
             return res.status(201).json({ error: 'Student already enrolled in the course' });
         }
 
-
         const updatedUserCourses = await User.findOneAndUpdate(
             { userName: req.body.userName },
-            { $push: { courses: req.body.courseId } },
+            { $push: { courses: { courseId: req.body.courseId } } },
             { new: true }
         );
 
@@ -96,6 +130,9 @@ const enrollStudent = async (req, res) => {
             }
         )
 
+        return res.status(201).json({ error: "Sucessfully Enrolled" });
+
+
 
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -104,4 +141,5 @@ const enrollStudent = async (req, res) => {
 }
 
 
-module.exports = { userRegistration, enrollStudent, courseDetails, userLogin, courseList };
+
+module.exports = { userRegistration, enrolledCourses,markCompleted,likeCourse, enrollStudent, courseDetails, userLogin, courseList };

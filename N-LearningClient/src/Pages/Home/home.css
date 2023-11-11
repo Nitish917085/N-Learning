@@ -1,8 +1,6 @@
 .homePage{
     display: flex;
-    height: calc(100vh - 40px);
-    
-}
+  }
 
 
 .sidebar{
@@ -33,4 +31,10 @@
     max-width: 400px;
     width: 100%;
     text-align: center;
+  }
+
+  .homeView{
+   
+    width: 100%;
+    margin-top: 10px;
   }

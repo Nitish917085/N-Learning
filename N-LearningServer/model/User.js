@@ -19,10 +19,20 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    courses:[{
-      type: mongoose.Schema.ObjectId,
-      ref: "Course",
-    }]
+    courses: [{
+      courseId: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Course",
+      },
+      progress: {
+        type: Number, 
+        default: 0, 
+      },
+      isCompleted:{
+        type:Boolean,
+        default:false
+      }
+    }],
   },
   {
     timestamps: true,

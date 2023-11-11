@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import './CourseDetails.css'
 import { useNavigate } from 'react-router-dom';
-import { enrollCourseApi,  getCourseDetailsApi } from '../../services/api';
+import { enrollCourseApi, getCourseDetailsApi } from '../../services/api';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -29,12 +29,12 @@ const CourseDetails = () => {
         }
     };
 
-    const handleEnroll=async ()=>{
+    const handleEnroll = async () => {
 
-        console.log("ddcssf",selectedCourse,user)
+        console.log("ddcssf", selectedCourse, user)
 
-        const details= {userName:user.userName,courseId:selectedCourse._id,nickName:user.nickName}
-       const res = await enrollCourseApi(details)
+        const details = { userName: user.userName, courseId: selectedCourse._id, nickName: user.nickName }
+        const res = await enrollCourseApi(details)
     }
 
 
@@ -44,40 +44,39 @@ const CourseDetails = () => {
 
     return (
         <div className='courseView'>
-            <div>
-                {
-                    courseDetails && <div>
-                        <div className="courseCard">
-                            <div className='enrollStatus'>
-                                <div onClick={()=>handleEnroll()}>Enroll</div>
-                            </div>
-                            <h1>{courseDetails.name}</h1>
-                            <p>Instructor: {courseDetails.instructor}</p>
-                            <p>Description: {courseDetails.description}</p>
-                            <p>Enrollment Status: {courseDetails.enrollmentStatus}</p>
-                            <img src={courseDetails.thumbnail} alt="Course thumbnail" />
-                            <p>Duration: {courseDetails.duration}</p>
-                            <p>Schedule: {courseDetails.schedule}</p>
-                            <p>Location: {courseDetails.location}</p>
-                            <p>Prerequisites: {courseDetails.prerequisites}</p>
-                            <div className='syllabusContainer' onClick={() => setExpanded(!expanded)}>
-                                Syllabus {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                            </div>
-                            {expanded && (
-                                <ul>
-                                    {courseDetails.syllabus.map((week) => (
-                                        <li key={week.week}>
-                                            <h2>Week {week.week}: {week.topic}</h2>
-                                            <p>{week.content}</p>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+            {
+                courseDetails &&
+                <div className="courseCard">
+                    <div className='enrollStatus'>
+                        <div onClick={() => handleEnroll()}>Enroll</div>
                     </div>
-                }
+                    <h1>{courseDetails.name}</h1>
+                    <p>Instructor: {courseDetails.instructor}</p>
+                    <p>Description: {courseDetails.description}</p>
+                    <p>Enrollment Status: {courseDetails.enrollmentStatus}</p>
+                    <img src={courseDetails.thumbnail} alt="Course thumbnail" />
+                    <p>Duration: {courseDetails.duration}</p>
+                    <p>Schedule: {courseDetails.schedule}</p>
+                    <p>Location: {courseDetails.location}</p>
+                    <p>Prerequisites: {courseDetails.prerequisites}</p>
+                    <div className='syllabusContainer' onClick={() => setExpanded(!expanded)}>
+                        Syllabus {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </div>
+                    {expanded && (
+                        <ul>
+                            {courseDetails.syllabus.map((week) => (
+                                <li key={week.week}>
+                                    <h2>Week {week.week}: {week.topic}</h2>
+                                    <p>{week.content}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
 
-            </div>
+                </div>
+            }
+
+
         </div>
     )
 }
