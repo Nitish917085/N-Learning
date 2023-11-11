@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import './CourseListing.css'
+import './Courselisting.css'
 import { useNavigate } from 'react-router-dom';
 import { setCourseDetails, setUsers } from '../../redux/reducers';
 import { getAllCourseApi } from '../../services/api';
