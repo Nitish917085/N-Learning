@@ -1,0 +1,43 @@
+.courseView {
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &>.card {
+        width: 80%;
+        max-width: 700px;
+        background-color: rgb(255, 199, 199);
+        margin: 4px;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+        
+
+        &:hover {
+            background-color: rgb(141, 249, 139);
+        }
+
+        .title {
+            display: flex;
+            font-weight: bold;
+            font-style: oblique;
+        }
+
+        .bookDetails {
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+
+            &>div {
+                &>span {
+                    font-style: italic;
+                }
+            }
+
+        }
+    }
+}
