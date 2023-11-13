@@ -40,10 +40,51 @@ const userLogin = async (req, res) => {
 
 
 const courseList = async (req, res) => {
-    try {
-        const courses = await Course.find({}).select('name instructor duration')
 
-        return res.status(200).json(courses)
+    try {
+        const page = parseInt(req.body.pageNumber) || 1;
+        const limit = parseInt(req.body.limit) || 10;
+
+        const results = {};
+
+        const startIndex = (page - 1) * limit;
+
+        let query = {};
+
+        if (req.body.enrollmentStatus) {
+            query.enrollmentStatus = req.body.enrollmentStatus;
+        }
+
+        if (req.body.searchKeyword) {
+            query[req.body.selectedTypeSearch] = { $regex: req.body.searchKeyword, $options: 'i' };
+        }
+        console.log(query)
+
+        const count = await Course.countDocuments(query)
+
+        const totalClientCount = count;
+
+        if (!totalClientCount) {
+            return res.status(200).json({ count: totalClientCount });
+        }
+
+        if (startIndex + limit < totalClientCount) {
+            results.next = {
+                page: page + 1,
+                limit: limit,
+            };
+        }
+
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit,
+            };
+        }
+        const courses = await Course.find(query).select('name instructor duration enrollmentStatus').skip(startIndex).limit(limit)
+
+        console.log(courses)
+        return res.status(200).json({ courses, count: totalClientCount })
 
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -64,7 +105,7 @@ const courseDetails = async (req, res) => {
 const enrolledCourses = async (req, res) => {
     try {
         const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
-               
+
         return res.status(200).json(courseDetails)
 
     } catch (err) {
@@ -74,10 +115,23 @@ const enrolledCourses = async (req, res) => {
 
 
 const markCompleted = async (req, res) => {
+    console.log("sfd")
     try {
-        const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
-               
-        return res.status(200).json(courseDetails)
+        const user = await User.findOneAndUpdate(
+            { userName: req.body.userName },
+            {
+                $set: {
+                    "courses.$[course].isCompleted": true,
+                },
+            },
+            {
+                arrayFilters: [{ "course.courseId": req.body.courseId }],
+                new: true,
+            }
+        );
+      
+
+        return res.status(200).json({})
 
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -86,10 +140,11 @@ const markCompleted = async (req, res) => {
 
 
 const likeCourse = async (req, res) => {
+    console.log(req.body)
     try {
-        const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
-               
-        return res.status(200).json(courseDetails)
+      //  const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
+
+        return res.status(200).json({})
 
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -132,8 +187,6 @@ const enrollStudent = async (req, res) => {
 
         return res.status(201).json({ error: "Sucessfully Enrolled" });
 
-
-
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
@@ -142,4 +195,4 @@ const enrollStudent = async (req, res) => {
 
 
 
-module.exports = { userRegistration, enrolledCourses,markCompleted,likeCourse, enrollStudent, courseDetails, userLogin, courseList };
+module.exports = { userRegistration, enrolledCourses, markCompleted, likeCourse, enrollStudent, courseDetails, userLogin, courseList };

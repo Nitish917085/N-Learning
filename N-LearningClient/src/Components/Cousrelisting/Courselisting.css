@@ -1,63 +1,84 @@
 .courseView {
 
     height: calc(100vh - 50px);
-    overflow: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 
- 
 
-    &>.card {
-        width: 80%;
-        max-width: 700px;
-        background-color: rgb(255, 199, 199);
-        margin: 4px;
-        padding: 10px;
-        cursor: pointer;
-        border-radius: 5px;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-        
+    &>.cardList {
+        margin: 5px;
+        overflow: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
 
-        &:hover {
-            background-color: rgb(141, 249, 139);
-        }
+        &>.card {
+            width: 80%;
+            max-width: 700px;
+            background-color: rgb(255, 199, 199);
+            margin: 4px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 
-        .title {
-            display: flex;
-            font-weight: bold;
-            font-style: oblique;
-        }
 
-        .bookDetails {
-            margin-top: 5px;
-            display: flex;
-            justify-content: space-between;
+            &:hover {
+                background-color: rgb(141, 249, 139);
+            }
 
-            &>div {
-                &>span {
-                    font-style: italic;
+            .cardHeader {
+                display: flex;
+                justify-content: space-between;
+
+                .title {
+                    display: flex;
+                    font-weight: bold;
+                    font-style: oblique;
+
+                }
+
+                .enrollmentStatus {
+                    display: flex;
+
                 }
             }
 
+            .bookDetails {
+                margin-top: 5px;
+                display: flex;
+                justify-content: space-between;
+
+                &>div {
+                    &>span {
+                        font-style: italic;
+                    }
+                }
+
+            }
         }
+
     }
+
 }
 
-.search{
+.search {
     width: 200px;
     border-radius: 5px;
     padding: 3px;
 }
 
-.filter{
+.filter {
 
     display: flex;
 }
 
-.filterStatus{
+.filterStatus {
     display: flex;
     margin-left: 50px;
     gap: 10px;

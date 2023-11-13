@@ -14,24 +14,42 @@ const CourseListing = () => {
     const [courseList, setCourseList] = useState([])
     const [paginatedCourseList, setPaginatedCourseList] = useState([])
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0)
+    const [pageLimit, setPageLimit] = useState(10)
+    const [pageNumber, setPageNumber] = useState(1)
+    const [selectedTypeSearch, setSectedTypeSearch] = useState("")
+    const [enrollmentStatus, setEnrollmentStatus] = useState("")
+    const [searchKeyword, setSelectedKeyword] = useState("")
+
 
     const handleChange = (event, value) => {
-        setPage(value);
-        setPaginatedCourseList(courseList.slice((value - 1) * 10, value * 10))
+        setPage(value)
+        setPageNumber(value);
     };
 
+
     const getAllCourse = async () => {
-        const res = await getAllCourseApi()
-        setCourseList(res)
-        setPaginatedCourseList(res.slice(0, 10))
+        const res = await getAllCourseApi({ pageNumber, selectedTypeSearch, enrollmentStatus, searchKeyword })
+        setCourseList(res.courses)
+        setTotalPages(Math.ceil(res.count / pageLimit))
+        console.log("ccc", res)
     }
 
     const handleCardClick = (item) => {
         dispatch(setCourseDetails(item))
         navigate('/courseDetailsPage')
     }
+    const setSelectedByTypeSearch = (value) => {
+        setSectedTypeSearch(value)
+    }
 
-    const handleActiveInactiveFilter = () => { }
+    useEffect(() => {
+        setPaginatedCourseList(courseList)
+    }, [courseList])
+
+    useEffect(() => {
+        getAllCourse()
+    }, [pageNumber])
 
     useEffect(() => {
         getAllCourse()
@@ -39,28 +57,45 @@ const CourseListing = () => {
 
     return (
         <div className='courseView'>
-            <br />
-            <br />
+
+
+
             <div className='filter'>
-                <input className='search' type='text' placeholder='Enter keywords to search' />
-                <div className="filterStatus">
-                    <label
-                        style={{ display: "flex", gap: "4px", alignItems: "center", }}     >
-                        <input type="radio" onClick={() => handleActiveInactiveFilter(true, true)} name="activity" />  All </label>
-                    <label style={{ display: "flex", gap: "4px", alignItems: "center", }}   >
-                        <input type="radio" onClick={() => handleActiveInactiveFilter(false, false)} name="activity" /> InActive </label>
-                    <label style={{ display: "flex", gap: "4px", alignItems: "center", }} >
-                        <input type="radio" onClick={() => handleActiveInactiveFilter(false, true)} name="activity" /> Active  </label>
+
+                <div>
+                    <input className='search' type='text' value={searchKeyword} onChange={(e) => setSelectedKeyword(e.target.value)} placeholder='Enter keywords to search' />
+                    <select value={selectedTypeSearch} onChange={(e) => setSelectedByTypeSearch(e.target.value)}>
+                        <option value="disabled">Select Type</option>
+                        <option value="">None</option>
+                        <option value="name">Name</option>
+                        <option value="instructor">Instructor</option>
+                    </select>
                 </div>
+
+                <div>
+                    <select value={enrollmentStatus} onChange={(e) => setEnrollmentStatus(e.target.value)}>
+                        <option value="disabled">Select Enrollment Status</option>
+                        <option value="">None</option>
+                        <option value="Open">Open</option>
+                        <option value="Closed">Closed</option>
+                        <option value="In Progress">In Progress</option>
+
+                    </select>
+                </div>
+
+                <button onClick={() => getAllCourse()}>Sercah</button>
+
             </div>
 
 
 
-            {
-                paginatedCourseList && paginatedCourseList.map((item) => {
+            <div className='cardList'>
+                {paginatedCourseList && paginatedCourseList.map((item) => {
+
                     return <div className='card' onClick={() => handleCardClick(item)}>
-                        <div className='title'>
-                            <div>{item.name}</div>
+                        <div className='cardHeader'>
+                            <div className='title'>{item.name}</div>
+                            <div className='enrollmentStatus'>{item.enrollmentStatus}</div>
                         </div>
                         <div className='bookDetails'>
                             <div> <span>by</span> {item.instructor}</div>
@@ -68,9 +103,11 @@ const CourseListing = () => {
                         </div>
                     </div>
                 })
-            }
+                }
 
-            <Pagination count={4} page={page} onChange={handleChange} />
+            </div>
+
+            <Pagination count={totalPages} page={page} onChange={handleChange} />
 
         </div>
     )

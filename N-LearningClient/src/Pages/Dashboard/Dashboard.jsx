@@ -3,9 +3,11 @@ import SideBar from "../../Components/SideBar/SideBar";
 import "./Dashboard.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { enrolledCoursesApi } from "../../services/api";
+import { enrolledCoursesApi, markCourseCompletedApi } from "../../services/api";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Dashboard = () => {
   const dispatch = useDispatch()
@@ -20,8 +22,14 @@ const Dashboard = () => {
 
     const res = await enrolledCoursesApi(user.userName)
     setEnrolledCourseList(res.courses)
-    console.log('hsduygcs',res)
 
+  }
+
+  const markCourseCompleted = async (courseId) => {
+
+    const res = await markCourseCompletedApi({ userName: user.userName, courseId })
+    if (res.status == 200)
+      getUserEnrolledCorses()
   }
 
   useEffect(() => {
@@ -38,10 +46,14 @@ const Dashboard = () => {
         <div className="enrolledCourseCard">
           {
             enrolledCourseList && enrolledCourseList.map((courseDetails) => {
+              console.log(courseDetails.isCompleted)
               return (
                 <div className="courseCard">
                   <div className='enrollStatus'>
                     <div>Enrolled</div>
+                  </div>
+                  <div className='enrollStatus'>
+                    <div onClick={() => markCourseCompleted(courseDetails.courseId._id)}>Completed :{courseDetails.isCompleted ? <span><CheckIcon /></span> : <span><CloseIcon /></span>}</div>
                   </div>
                   <h1>{courseDetails.courseId.name}</h1>
                   <p>Instructor: {courseDetails.courseId.instructor}</p>

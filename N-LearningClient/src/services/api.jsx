@@ -6,7 +6,7 @@ const baseUrl = import.meta.env.VITE_SERVERURL
 const getAllCourseApi = async (details)=>{
     const cookie =Cookies.get("userToken")
 
-    const response = await axios.post(`${baseUrl}/getAllCourse`,{cookie})
+    const response = await axios.post(`${baseUrl}/getAllCourse`,{cookie,...details})
 
     if(response.status == 200 )
         return response.data
@@ -47,5 +47,15 @@ const enrolledCoursesApi = async (details)=>{
          alert(response.data.error)
 }
 
+const markCourseCompletedApi = async (details)=>{
+    const cookie =Cookies.get("userToken")
+    console.log("hjhj")
 
-export {baseUrl,getAllCourseApi,getCourseDetailsApi,enrolledCoursesApi, enrollCourseApi }
+    const response = await axios.post(`${baseUrl}/markCompleted`,{...details,cookie})
+    if(response.status == 200 )
+        return response
+    else if(response.status== 201)
+         alert(response.data.error)
+}
+
+export {baseUrl,getAllCourseApi,getCourseDetailsApi,markCourseCompletedApi,enrolledCoursesApi, enrollCourseApi }
