@@ -6,3 +6,11 @@
   }
 }
 
+
+.courseDetails{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: rgb(233, 243, 252); 
+  justify-content: center;
+}

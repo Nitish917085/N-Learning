@@ -28,7 +28,10 @@ const CourseDetailsPage = () => {
         <div className="sidebar">
           <SideBar />
         </div>
+        <div className="courseDetails"> 
         <CourseDetails />
+        </div>
+       
       </div>
     </>
   );

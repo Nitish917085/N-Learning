@@ -11,6 +11,7 @@ const CourseListing = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const user = useSelector(state => state.user)
 
     const [courseList, setCourseList] = useState([])
     const [paginatedCourseList, setPaginatedCourseList] = useState([])
@@ -18,8 +19,8 @@ const CourseListing = () => {
     const [totalPages, setTotalPages] = useState(0)
     const [pageLimit, setPageLimit] = useState(10)
     const [pageNumber, setPageNumber] = useState(1)
-    const [selectedTypeSearch, setSectedTypeSearch] = useState("")
-    const [enrollmentStatus, setEnrollmentStatus] = useState("")
+    const [selectedTypeSearch, setSectedTypeSearch] = useState("disabled")
+    const [enrollmentStatus, setEnrollmentStatus] = useState("disabled")
     const [searchKeyword, setSelectedKeyword] = useState("")
 
 
@@ -30,7 +31,13 @@ const CourseListing = () => {
 
 
     const getAllCourse = async () => {
-        const res = await getAllCourseApi({ pageNumber, selectedTypeSearch, enrollmentStatus, searchKeyword })
+        var query = {userName: user.userName, pageNumber, selectedTypeSearch, enrollmentStatus, searchKeyword }
+
+        if (selectedTypeSearch == "disabled")
+            query = { userName: user.userName, pageNumber, selectedTypeSearch:"", enrollmentStatus, searchKeyword }
+        if (enrollmentStatus == "disabled")
+            query = { userName: user.userName, pageNumber, selectedTypeSearch, enrollmentStatus:"", searchKeyword }
+        const res = await getAllCourseApi(query)
         setCourseList(res.courses)
         setTotalPages(Math.ceil(res.count / pageLimit))
         console.log("ccc", res)
@@ -63,7 +70,7 @@ const CourseListing = () => {
                 <div className='keywordSearch'>
                     <input className='search' type='text' value={searchKeyword} onChange={(e) => setSelectedKeyword(e.target.value)} placeholder='Enter keywords to search' />
                     <select value={selectedTypeSearch} onChange={(e) => setSelectedByTypeSearch(e.target.value)}>
-                        <option value="disabled">Select Type</option>
+                        <option disabled value="disabled">Select Type</option>
                         <option value="">None</option>
                         <option value="name">Name</option>
                         <option value="instructor">Instructor</option>
@@ -72,17 +79,14 @@ const CourseListing = () => {
 
                 <div className='enrollmentStatus'>
                     <select value={enrollmentStatus} onChange={(e) => setEnrollmentStatus(e.target.value)}>
-                        <option value="disabled">Select Enrollment Status</option>
+                        <option disabled value="disabled">Select Enrollment Status</option>
                         <option value="">None</option>
                         <option value="Open">Open</option>
                         <option value="Closed">Closed</option>
                         <option value="In Progress">In Progress</option>
                     </select>
-                    <div className="searchButton" onClick={() => getAllCourse()}><SearchIcon/></div>
-
+                    <div className="searchButton" onClick={() => getAllCourse()}><SearchIcon /></div>
                 </div>
-
-
             </div>
 
 

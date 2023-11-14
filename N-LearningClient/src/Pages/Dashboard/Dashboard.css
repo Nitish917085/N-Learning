@@ -10,3 +10,38 @@
     overflow: auto;
 
 }
+
+.enrollHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(90, 76, 247)
+
+
+}
+
+.completedStatus {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &>span{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+  
+
+.markComplete{
+    cursor: pointer;
+    border-radius: 2px;
+    background-color: rgb(57, 146, 146);
+
+    &:hover{
+        background-color: rgb(111, 244, 244);
+
+    }
+
+}

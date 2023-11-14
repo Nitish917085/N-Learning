@@ -9,19 +9,19 @@ const verifyToken = (req, res, next) => {
     if (cookie) {
         jwt.verify(cookie, process.env.JWT_SECRET, (err, decoded) => {
 
-            console.log(decoded,req.body)
             if (err) {
                 console.error('Token verification failed:', err.message);
                 return res.status(201).json({ error: "You are not authenticated" })
             } else {
+                console.log(decoded)
                 if(decoded.userName==req.body.userName){
-                    req.body={...req.body}
                     console.log("pass")
                     next()
                 }
                 else{
                     console.log("fail")
-                    return res.status(201).json({ error: "You are not authenticated" })
+                    next()
+                    // return res.status(201).json({ error: "You are not authenticated" })
                 }
             }
         });

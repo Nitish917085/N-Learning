@@ -20,7 +20,7 @@ const Dashboard = () => {
 
   const getUserEnrolledCorses = async () => {
 
-    const res = await enrolledCoursesApi(user.userName)
+    const res = await enrolledCoursesApi({userName: user.userName})
     setEnrolledCourseList(res.courses)
 
   }
@@ -49,11 +49,14 @@ const Dashboard = () => {
               console.log(courseDetails.isCompleted)
               return (
                 <div className="courseCard">
-                  <div className='enrollStatus'>
+                  <div className='enrollHeader'>
                     <div>Enrolled</div>
-                  </div>
-                  <div className='enrollStatus'>
-                    <div onClick={() => markCourseCompleted(courseDetails.courseId._id)}>Completed :{courseDetails.isCompleted ? <span><CheckIcon /></span> : <span><CloseIcon /></span>}</div>
+                    <div className="completedStatus" onClick={() => markCourseCompleted(courseDetails.courseId._id)}>
+                      {courseDetails.isCompleted ?
+                        <span> Completed : <CheckIcon /></span> :
+                        <span>Mark as Completed: <span className="markComplete"><CloseIcon /></span>
+                        </span>}
+                    </div>
                   </div>
                   <h1>{courseDetails.courseId.name}</h1>
                   <p>Instructor: {courseDetails.courseId.instructor}</p>

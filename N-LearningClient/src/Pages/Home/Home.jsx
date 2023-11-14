@@ -21,7 +21,7 @@ const Home = () => {
 
   const getCourseList = async () => {
 
-    const courseList = await getAllCourseApi()
+    const courseList = await getAllCourseApi({userName: user.userName})
     setCourseList(courseList)
 
   }
@@ -46,6 +46,7 @@ const Home = () => {
         <div className="homeView">
           <CourseListing/>
         </div>
+        
       </div>
     </>
   );

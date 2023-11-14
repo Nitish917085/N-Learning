@@ -22,7 +22,7 @@ const CourseDetails = () => {
 
     const getCourseDetails = async (id) => {
         try {
-            const res = await getCourseDetailsApi(id);
+            const res = await getCourseDetailsApi({id,userName: user.userName});
             setCourseDetails(res);
         } catch (error) {
             console.error('Error fetching course details:', error);

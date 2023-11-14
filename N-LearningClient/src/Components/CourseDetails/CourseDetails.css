@@ -2,12 +2,17 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .courseView {
     height: calc(100vh - 50px);
     overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
 }
 
 h1 {

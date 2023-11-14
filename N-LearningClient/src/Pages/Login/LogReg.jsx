@@ -69,6 +69,11 @@ const LogReg = () => {
     } else return;
   };
 
+  const hadleForgotPasswordClick=()=>{
+
+    navigate('/forgotPassword')
+  }
+
   useEffect(() => {
     checkTokenExist();
   }, []);
@@ -142,6 +147,14 @@ const LogReg = () => {
               {isRegLog ? "Login?" : "Register?"}
             </span>
           </div>
+          <span
+              className="isRegLogClick"
+              style={{ color: "blue" }}
+              onClick={() => hadleForgotPasswordClick()}
+            >
+              Forgot Password ?
+            </span>
+
         </form>
       </div>
     </>
