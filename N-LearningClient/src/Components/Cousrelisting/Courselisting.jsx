@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { setCourseDetails, setUsers } from '../../redux/reducers';
 import { getAllCourseApi } from '../../services/api';
 import Pagination from '@mui/material/Pagination';
+import SearchIcon from '@mui/icons-material/Search';
 
 const CourseListing = () => {
 
@@ -57,12 +58,9 @@ const CourseListing = () => {
 
     return (
         <div className='courseView'>
-
-
-
             <div className='filter'>
 
-                <div>
+                <div className='keywordSearch'>
                     <input className='search' type='text' value={searchKeyword} onChange={(e) => setSelectedKeyword(e.target.value)} placeholder='Enter keywords to search' />
                     <select value={selectedTypeSearch} onChange={(e) => setSelectedByTypeSearch(e.target.value)}>
                         <option value="disabled">Select Type</option>
@@ -72,18 +70,18 @@ const CourseListing = () => {
                     </select>
                 </div>
 
-                <div>
+                <div className='enrollmentStatus'>
                     <select value={enrollmentStatus} onChange={(e) => setEnrollmentStatus(e.target.value)}>
                         <option value="disabled">Select Enrollment Status</option>
                         <option value="">None</option>
                         <option value="Open">Open</option>
                         <option value="Closed">Closed</option>
                         <option value="In Progress">In Progress</option>
-
                     </select>
+                    <div className="searchButton" onClick={() => getAllCourse()}><SearchIcon/></div>
+
                 </div>
 
-                <button onClick={() => getAllCourse()}>Sercah</button>
 
             </div>
 
