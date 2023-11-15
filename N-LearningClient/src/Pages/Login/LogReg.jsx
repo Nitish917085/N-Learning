@@ -14,14 +14,14 @@ import PersonPinCircleIcon from "@mui/icons-material/PersonPinCircle";
 
 
 const LogReg = () => {
-  console.log("base",baseUrl)
+  console.log("base", baseUrl)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isProgressBarShow, setIsProgressBar] = useState(false)
   const [isRegLog, setIsRegLog] = useState(false);
   const [details, setDetails] = useState({});
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsProgressBar(true)
@@ -34,11 +34,11 @@ const LogReg = () => {
     if (response.status == 201) {
       alert(response.data.error);
     } else if (response.status == 200) {
-       if(isRegLog){
+      if (isRegLog) {
         alert(response.data.error)
         setIsRegLog(!isRegLog)
         return
-       }    
+      }
       const token = response.data.token;
       Cookies.set("userToken", token);
       dispatch(setUsers(response.data));
@@ -66,10 +66,14 @@ const LogReg = () => {
       Cookies.set("userToken", token);
       dispatch(setUsers(response.data));
       navigate(`/home`);
-    } else return;
+    } else {
+      dispatch(setUsers({}));
+      setIsProgressBar(false)
+      return;
+    };
   };
 
-  const hadleForgotPasswordClick=()=>{
+  const hadleForgotPasswordClick = () => {
 
     navigate('/forgotPassword')
   }
@@ -82,11 +86,11 @@ const LogReg = () => {
     <>
       <div className="logReg">
         <form className="form" onSubmit={(e) => handleSubmit(e)}>
-        {isProgressBarShow && <div className="modal-overlay">
-          <div className="modal-overlay">
-            <CircularProgress />
-          </div>
-        </div>}
+          {isProgressBarShow && <div className="modal-overlay">
+            <div className="modal-overlay">
+              <CircularProgress />
+            </div>
+          </div>}
           <div className="formItems">
             <PersonIcon />
             <input
@@ -148,12 +152,12 @@ const LogReg = () => {
             </span>
           </div>
           <span
-              className="isRegLogClick"
-              style={{ color: "blue" }}
-              onClick={() => hadleForgotPasswordClick()}
-            >
-              Forgot Password ?
-            </span>
+            className="isRegLogClick"
+            style={{ color: "blue" }}
+            onClick={() => hadleForgotPasswordClick()}
+          >
+            Forgot Password ?
+          </span>
 
         </form>
       </div>

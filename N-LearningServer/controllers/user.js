@@ -81,7 +81,20 @@ const courseList = async (req, res) => {
                 limit: limit,
             };
         }
-        const courses = await Course.find(query).select('name instructor duration enrollmentStatus').skip(startIndex).limit(limit)
+        const courses = await Course.aggregate([
+            { $match: query },
+            {
+                $project: {
+                    name: 1,
+                    instructor: 1,
+                    duration: 1,
+                    enrollmentStatus: 1,
+                    likesCount: { $size: "$likes" }
+                }
+            },
+            { $skip: startIndex },
+            { $limit: limit }
+        ]);
 
         console.log(courses)
         return res.status(200).json({ courses, count: totalClientCount })
@@ -129,7 +142,7 @@ const markCompleted = async (req, res) => {
                 new: true,
             }
         );
-      
+
 
         return res.status(200).json({})
 
@@ -142,7 +155,7 @@ const markCompleted = async (req, res) => {
 const likeCourse = async (req, res) => {
     console.log(req.body)
     try {
-      //  const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
+        //  const courseDetails = await User.findOne({ userName: req.body.userName }).populate('courses.courseId')
 
         return res.status(200).json({})
 

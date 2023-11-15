@@ -29,6 +29,10 @@ const courseSchema = new mongoose.Schema({
             email: { type: String, required: true },
         },
     ],
+    likes:[{
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+    }]
 });
 
 const Course = mongoose.model('Course', courseSchema);
